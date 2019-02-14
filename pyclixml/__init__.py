@@ -24,7 +24,7 @@ class CliXMLParser:
         if (tag == self.schema_name + "S"):
             node = self.currentData
         if (tag == self.schema_name + "C"):
-            node = self.currentData
+            node = chr(int(self.currentData))
         if (tag == self.schema_name + "B"):
             if (self.currentData == "true"):
                 node = True
@@ -39,13 +39,10 @@ class CliXMLParser:
         return self.lastNode
 
 if __name__ == "__main__":
-    target = CliXMLParser()
-    parser = ET.XMLParser(target=target)
+    pass
+    #target = CliXMLParser()
+    #parser = ET.XMLParser(target=target)
 
-    exampleXml = """
-    <S xmlns="http://schemas.microsoft.com/powershell/2004/04">This is String</S>
-    """
-
-    parser.feed(exampleXml)
-    ret = parser.close()
-    print(ret)
+    #parser.feed(exampleXml)
+    #ret = parser.close()
+    #print(ret)
