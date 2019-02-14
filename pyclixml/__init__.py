@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+import dateutil.parser as du
 
 class CliXMLParser:
     schema_name = "{http://schemas.microsoft.com/powershell/2004/04}"
@@ -30,6 +31,8 @@ class CliXMLParser:
                 node = True
             if (self.currentData == "false"):
                 node = False
+        if (tag == self.schema_name + "DT"):
+            node = du.parse(self.currentData)
         if (node != node): 
             self.stack[-1].append(node)
         self.lastNode = node
@@ -39,10 +42,19 @@ class CliXMLParser:
         return self.lastNode
 
 if __name__ == "__main__":
-    pass
     #target = CliXMLParser()
     #parser = ET.XMLParser(target=target)
 
     #parser.feed(exampleXml)
     #ret = parser.close()
     #print(ret)
+    exampleXml = """
+    <DT xmlns="http://schemas.microsoft.com/powershell/2004/04">2019-02-14T21:44:13.419689+09:00</DT>
+    """
+    parser = ET.XMLParser(target=CliXMLParser())
+    parser.feed(exampleXml)
+    ret = parser.close()
+    print(ret)
+    print(type(ret))
+    pass
+

@@ -51,6 +51,19 @@ class TestCliXmlParser(unittest.TestCase):
         ret = parser.close()
         self.assertFalse(ret)
 
+    def test_Date_Time(self):
+        exampleXml = """
+        <DT xmlns="http://schemas.microsoft.com/powershell/2004/04">2019-02-14T21:44:13.419689+09:00</DT>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret.year, 2019)
+        self.assertEqual(ret.month, 2)
+        self.assertEqual(ret.day, 14)
+        self.assertEqual(ret.hour, 21)
+        self.assertEqual(ret.minute, 44)
+        self.assertEqual(ret.second, 13)
 
 if __name__ == "__main__":
     unittest.main()
