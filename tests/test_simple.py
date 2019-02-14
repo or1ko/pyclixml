@@ -33,5 +33,24 @@ class TestCliXmlParser(unittest.TestCase):
         ret = parser.close()
         self.assertEqual("あ", ret)
 
+    def test_boolean_true(self):
+        exampleXml = """
+        <B xmlns="http://schemas.microsoft.com/powershell/2004/04">true</B>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertTrue(ret)
+
+    def test_boolean_false(self):
+        exampleXml = """
+        <B xmlns="http://schemas.microsoft.com/powershell/2004/04">false</B>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertFalse(ret)
+
+
 if __name__ == "__main__":
     unittest.main()
