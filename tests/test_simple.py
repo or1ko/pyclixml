@@ -4,6 +4,7 @@
 import pyclixml as cli
 import xml.etree.ElementTree as ET
 import unittest
+import datetime
 
 class TestCliXmlParser(unittest.TestCase):
     def test_string(self):
@@ -64,6 +65,32 @@ class TestCliXmlParser(unittest.TestCase):
         self.assertEqual(ret.hour, 21)
         self.assertEqual(ret.minute, 44)
         self.assertEqual(ret.second, 13)
+
+    def test_duration(self):
+        exampleXml = """
+        <TS xmlns="http://schemas.microsoft.com/powershell/2004/04">P2DT22H31.9085205S</TS>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret.days, 2)
+        self.assertEqual(ret.seconds, 22 * 60 * 60 + 31)
+        self.assertEqual(ret.microseconds, 908521)
+
+
+class TestDeltaTimeParser(unittest.TestCase):
+
+    def test_duration2(self):
+        ret = cli.parseDeltaTime("P1Y2M3DT10H30M10.10S")
+        self.assertEqual(ret.days, 365 * 1 + 2 * 30 + 3)
+        self.assertEqual(ret.seconds, 10 * 60 * 60 + 30 * 60 + 10)
+        self.assertEqual(ret.microseconds, 10 * 10000)
+
+    def test_duration_seconds(self):
+        ret = cli.parseDeltaTime("PT31.9085205S")
+        self.assertEqual(ret.days, 0)
+        self.assertEqual(ret.seconds, 31)
+        self.assertEqual(ret.microseconds, 908521)
 
 if __name__ == "__main__":
     unittest.main()
