@@ -21,22 +21,23 @@ class CliXMLParser:
         if (tag == self.schema_name + "Objs"):
             self.lastPop = self.stack.pop()
             node = self.lastPop
-        if (tag == self.schema_name + "Obj"):
+        elif (tag == self.schema_name + "Obj"):
             self.lastPop = self.stack.pop()
             node = self.lastPop
-        if (tag == self.schema_name + "S"):
+        elif (tag == self.schema_name + "S"):
             node = self.currentData
-        if (tag == self.schema_name + "C"):
+        elif (tag == self.schema_name + "C"):
             node = chr(int(self.currentData))
-        if (tag == self.schema_name + "B"):
+        elif (tag == self.schema_name + "B"):
             if (self.currentData == "true"):
                 node = True
-            if (self.currentData == "false"):
+            elif (self.currentData == "false"):
                 node = False
-        if (tag == self.schema_name + "DT"):
+        elif (tag == self.schema_name + "DT"):
             node = du.parse(self.currentData)
-        if (tag == self.schema_name + "TS"):
+        elif (tag == self.schema_name + "TS"):
             node = parseDeltaTime(self.currentData)
+
         if (node != node): 
             self.stack[-1].append(node)
         self.lastNode = node
