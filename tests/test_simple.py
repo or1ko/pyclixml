@@ -76,7 +76,15 @@ class TestCliXmlParser(unittest.TestCase):
         self.assertEqual(ret.days, 2)
         self.assertEqual(ret.seconds, 22 * 60 * 60 + 31)
         self.assertEqual(ret.microseconds, 908521)
-
+    
+    def test_unsigned_byte(self):
+        exampleXml = """
+        <By xmlns="http://schemas.microsoft.com/powershell/2004/04">204</By>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, bytes([204]))
 
 class TestDeltaTimeParser(unittest.TestCase):
 

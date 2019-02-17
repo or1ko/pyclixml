@@ -37,6 +37,11 @@ class CliXMLParser:
             node = du.parse(self.currentData)
         elif (tag == self.schema_name + "TS"):
             node = parseDeltaTime(self.currentData)
+        elif (tag == self.schema_name + "By"):
+            node = bytes([int(self.currentData)])
+        # unspport signed byte
+        #elif (tag == self.schema_name + "SB"):
+        #    node = bytes([int(self.currentData)])
 
         if (node != node): 
             self.stack[-1].append(node)
