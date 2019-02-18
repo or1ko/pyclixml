@@ -149,6 +149,15 @@ class TestCliXmlParser(unittest.TestCase):
         ret = parser.close()
         self.assertEqual(ret, 12.34)
 
+    def test_double(self):
+        exampleXml = """
+        <Db xmlns="http://schemas.microsoft.com/powershell/2004/04">12.34</Db>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, 12.34)
+
 
 class TestDeltaTimeParser(unittest.TestCase):
 
