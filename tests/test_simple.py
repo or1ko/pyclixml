@@ -158,6 +158,14 @@ class TestCliXmlParser(unittest.TestCase):
         ret = parser.close()
         self.assertEqual(ret, 12.34)
 
+    def test_decimal(self):
+        exampleXml = """
+        <D xmlns="http://schemas.microsoft.com/powershell/2004/04">12.34</D>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, 12.34)
 
 class TestDeltaTimeParser(unittest.TestCase):
 

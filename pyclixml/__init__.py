@@ -58,6 +58,8 @@ class CliXMLParser:
             node = float(self.currentData)
         elif (tag == self.schema_name + "Db"):
             node = float(self.currentData)
+        elif (tag == self.schema_name + "D"):
+            node = float(self.currentData)
 
         if (node != node): 
             self.stack[-1].append(node)
