@@ -131,6 +131,14 @@ class TestCliXmlParser(unittest.TestCase):
         ret = parser.close()
         self.assertEqual(ret, 18446744073709551615)
 
+    def test_signed_long(self):
+        exampleXml = """
+        <I64 xmlns="http://schemas.microsoft.com/powershell/2004/04">-9223372036854775808</I64>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, -9223372036854775808)
 
 class TestDeltaTimeParser(unittest.TestCase):
 
