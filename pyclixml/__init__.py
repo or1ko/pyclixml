@@ -42,6 +42,8 @@ class CliXMLParser:
         # unspport signed byte
         #elif (tag == self.schema_name + "SB"):
         #    node = bytes([int(self.currentData)])
+        elif (tag == self.schema_name + "U16"):
+            node = int(self.currentData)
 
         if (node != node): 
             self.stack[-1].append(node)
