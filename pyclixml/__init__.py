@@ -46,6 +46,8 @@ class CliXMLParser:
             node = int(self.currentData)
         elif (tag == self.schema_name + "I16"):
             node = int(self.currentData)
+        elif (tag == self.schema_name + "U32"):
+            node = int(self.currentData)
 
         if (node != node): 
             self.stack[-1].append(node)
