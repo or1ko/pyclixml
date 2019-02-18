@@ -140,6 +140,16 @@ class TestCliXmlParser(unittest.TestCase):
         ret = parser.close()
         self.assertEqual(ret, -9223372036854775808)
 
+    def test_float(self):
+        exampleXml = """
+        <Sg xmlns="http://schemas.microsoft.com/powershell/2004/04">12.34</Sg>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, 12.34)
+
+
 class TestDeltaTimeParser(unittest.TestCase):
 
     def test_duration2(self):

@@ -54,6 +54,8 @@ class CliXMLParser:
             node = int(self.currentData)
         elif (tag == self.schema_name + "I64"):
             node = int(self.currentData)
+        elif (tag == self.schema_name + "Sg"):
+            node = float(self.currentData)
 
         if (node != node): 
             self.stack[-1].append(node)
