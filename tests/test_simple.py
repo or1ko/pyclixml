@@ -5,6 +5,7 @@ import pyclixml as cli
 import xml.etree.ElementTree as ET
 import unittest
 import datetime
+import uuid
 
 class TestCliXmlParser(unittest.TestCase):
     def test_string(self):
@@ -176,6 +177,15 @@ class TestCliXmlParser(unittest.TestCase):
         ret = parser.close()
         self.assertEqual(ret, bytes({1,2,3,4}))
 
+    def test_guid(self):
+        exampleXml = """
+        <G xmlns="http://schemas.microsoft.com/powershell/2004/04">792e5b37-4505-47ef-b7d2-8711bb7affa8</G>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, uuid.UUID('792e5b37-4505-47ef-b7d2-8711bb7affa8'))
+        
 class TestDeltaTimeParser(unittest.TestCase):
 
     def test_duration2(self):
