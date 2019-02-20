@@ -69,6 +69,8 @@ class CliXMLParser:
             node = uuid.UUID(self.currentData)
         elif (tag == self.schema_name + "URI"):
             node = urllib.parse.urlparse(self.currentData)
+        elif (tag == self.schema_name + "Nil"):
+            node = None
 
         if (node != node): 
             self.stack[-1].append(node)

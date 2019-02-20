@@ -195,7 +195,16 @@ class TestCliXmlParser(unittest.TestCase):
         parser.feed(exampleXml)
         ret = parser.close()
         self.assertEqual(ret, urllib.parse.urlparse("http://www.microsoft.com/"))
-           
+
+    def test_nil(self):
+        exampleXml = """
+        <Nil xmlns="http://schemas.microsoft.com/powershell/2004/04" />
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, None)          
+
 class TestDeltaTimeParser(unittest.TestCase):
 
     def test_duration2(self):
