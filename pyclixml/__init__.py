@@ -71,7 +71,9 @@ class CliXMLParser:
             node = urllib.parse.urlparse(self.currentData)
         elif (tag == self.schema_name + "Nil"):
             node = None
-
+        elif (tag == self.schema_name + "Version"):
+            node = parseVersion(self.currentData)
+    
         if (node != node): 
             self.stack[-1].append(node)
         self.lastNode = node
@@ -112,6 +114,24 @@ def parseDeltaTime(s):
         seconds += float(sseconds[:-1])
 
     return dt.timedelta(days=days, seconds=seconds) 
+
+class Version:
+    def __init__(self, major=0, minor=0, build=-1, revision=-1):
+        self.major = major
+        self.minor = minor
+        self.build = build
+        self.revision = revision
+
+def parseVersion(s):
+    sp = s.split('.')
+    if (len(sp) == 2):
+        return Version(major=int(sp[0]), minor=int(sp[1]))
+    elif (len(sp) == 3):
+        return Version(major=int(sp[0]), minor=int(sp[1]), build=int(sp[2]))
+    elif (len(sp) == 4):
+        return Version(major=int(sp[0]), minor=int(sp[1]), build=int(sp[2]), revision=int(sp[3]))
+    else:
+        raise ValueError("Invalid Version string => " + s )
 
 if __name__ == "__main__":
 

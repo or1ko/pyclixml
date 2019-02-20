@@ -205,6 +205,18 @@ class TestCliXmlParser(unittest.TestCase):
         ret = parser.close()
         self.assertEqual(ret, None)          
 
+    def test_version(self):
+        exampleXml = """
+        <Version xmlns="http://schemas.microsoft.com/powershell/2004/04">6.2.1.3</Version>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret.major, 6) 
+        self.assertEqual(ret.minor, 2) 
+        self.assertEqual(ret.build, 1) 
+        self.assertEqual(ret.revision, 3) 
+
 class TestDeltaTimeParser(unittest.TestCase):
 
     def test_duration2(self):
