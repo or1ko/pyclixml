@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import dateutil.parser as du
 import datetime as dt
 import re
+import base64
 
 class CliXMLParser:
     schema_name = "{http://schemas.microsoft.com/powershell/2004/04}"
@@ -60,6 +61,8 @@ class CliXMLParser:
             node = float(self.currentData)
         elif (tag == self.schema_name + "D"):
             node = float(self.currentData)
+        elif (tag == self.schema_name + "BA"):
+            node = base64.b64decode(self.currentData)
 
         if (node != node): 
             self.stack[-1].append(node)

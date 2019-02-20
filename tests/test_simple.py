@@ -167,6 +167,15 @@ class TestCliXmlParser(unittest.TestCase):
         ret = parser.close()
         self.assertEqual(ret, 12.34)
 
+    def test_array_of_bytes(self):
+        exampleXml = """
+        <BA xmlns="http://schemas.microsoft.com/powershell/2004/04">AQIDBA==</BA>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, bytes({1,2,3,4}))
+
 class TestDeltaTimeParser(unittest.TestCase):
 
     def test_duration2(self):
