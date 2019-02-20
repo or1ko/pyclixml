@@ -4,6 +4,7 @@ import datetime as dt
 import re
 import base64
 import uuid
+import urllib.parse
 
 class CliXMLParser:
     schema_name = "{http://schemas.microsoft.com/powershell/2004/04}"
@@ -66,6 +67,8 @@ class CliXMLParser:
             node = base64.b64decode(self.currentData)
         elif (tag == self.schema_name + "G"):
             node = uuid.UUID(self.currentData)
+        elif (tag == self.schema_name + "URI"):
+            node = urllib.parse.urlparse(self.currentData)
 
         if (node != node): 
             self.stack[-1].append(node)

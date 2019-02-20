@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 import unittest
 import datetime
 import uuid
+import urllib.parse
 
 class TestCliXmlParser(unittest.TestCase):
     def test_string(self):
@@ -185,7 +186,16 @@ class TestCliXmlParser(unittest.TestCase):
         parser.feed(exampleXml)
         ret = parser.close()
         self.assertEqual(ret, uuid.UUID('792e5b37-4505-47ef-b7d2-8711bb7affa8'))
-        
+    
+    def test_uri(self):
+        exampleXml = """
+        <URI xmlns="http://schemas.microsoft.com/powershell/2004/04">http://www.microsoft.com/</URI>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, urllib.parse.urlparse("http://www.microsoft.com/"))
+           
 class TestDeltaTimeParser(unittest.TestCase):
 
     def test_duration2(self):
