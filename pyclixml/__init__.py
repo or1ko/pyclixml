@@ -74,6 +74,7 @@ class CliXMLParser:
             node = parseVersion(self.currentData)
         elif (tag == self.schema_name + "XD"):
             node = ET.fromstring(self.currentData)
+        # unspport script block
         
         self.currentData = "" 
     
