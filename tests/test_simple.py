@@ -216,6 +216,16 @@ class TestCliXmlParser(unittest.TestCase):
         self.assertEqual(ret.minor, 2) 
         self.assertEqual(ret.build, 1) 
         self.assertEqual(ret.revision, 3) 
+    
+    def test_xml_document(self):
+        exampleXml = """
+        <XD xmlns="http://schemas.microsoft.com/powershell/2004/04">&lt;name attribute="value"&gt;Content&lt;/name&gt;</XD>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEquals(ret.tag, 'name')
+        self.assertEquals(ret.text, 'Content')
 
 class TestDeltaTimeParser(unittest.TestCase):
 

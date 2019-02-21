@@ -10,7 +10,7 @@ class CliXMLParser:
     schema_name = "{http://schemas.microsoft.com/powershell/2004/04}"
     lastNode = None
     stack = []
-    currentData = None
+    currentData = ""
     def start(self, tag, attrib):
         #print("tag=" + tag + " start. stack=")
         #print(self.stack)
@@ -19,7 +19,6 @@ class CliXMLParser:
         if (tag == self.schema_name + "Obj"):
             self.stack.append([])
     def end(self, tag):
-        
         node = None
         if (tag == self.schema_name + "Objs"):
             self.lastPop = self.stack.pop()
@@ -73,12 +72,18 @@ class CliXMLParser:
             node = None
         elif (tag == self.schema_name + "Version"):
             node = parseVersion(self.currentData)
+        elif (tag == self.schema_name + "XD"):
+            node = ET.fromstring(self.currentData)
+        
+        self.currentData = "" 
     
         if (node != node): 
             self.stack[-1].append(node)
         self.lastNode = node
+
     def data(self, data):
-        self.currentData = data
+        self.currentData += data
+
     def close(self):
         return self.lastNode
 
@@ -135,7 +140,18 @@ def parseVersion(s):
 
 if __name__ == "__main__":
 
-    print(parseDeltaTime("PT31.9085205S"))
+    #print(parseDeltaTime("PT31.9085205S"))
+    exampleXml = """
+    <XD xmlns="http://schemas.microsoft.com/powershell/2004/04">
+        &lt;name attribute="value"&gt;Content&lt;/name&gt;
+    </XD>
+    """
+    print(exampleXml)
+    parser = ET.XMLParser(target=CliXMLParser())
+    parser.feed(exampleXml)
+    ret = parser.close()
+
+    print(ret)
 
     #target = CliXMLParser()
     #parser = ET.XMLParser(target=target)
