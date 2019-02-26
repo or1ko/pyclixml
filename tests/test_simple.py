@@ -227,6 +227,15 @@ class TestCliXmlParser(unittest.TestCase):
         self.assertEquals(ret.tag, 'name')
         self.assertEquals(ret.text, 'Content')
 
+    def test_scriptblock(self):
+        exampleXml = """
+        <SBK xmlns="http://schemas.microsoft.com/powershell/2004/04">get-command -type cmdlet</SBK>
+        """
+        parser = ET.XMLParser(target=cli.CliXMLParser())
+        parser.feed(exampleXml)
+        ret = parser.close()
+        self.assertEqual(ret, cli.ScriptBlock("get-command -type cmdlet"))
+ 
 class TestDeltaTimeParser(unittest.TestCase):
 
     def test_duration2(self):

@@ -74,7 +74,8 @@ class CliXMLParser:
             node = parseVersion(self.currentData)
         elif (tag == self.schema_name + "XD"):
             node = ET.fromstring(self.currentData)
-        # unspport script block
+        elif (tag == self.schema_name + "SBK"):
+            node = ScriptBlock(self.currentData)
         
         self.currentData = "" 
     
@@ -138,6 +139,13 @@ def parseVersion(s):
         return Version(major=int(sp[0]), minor=int(sp[1]), build=int(sp[2]), revision=int(sp[3]))
     else:
         raise ValueError("Invalid Version string => " + s )
+
+class ScriptBlock:
+    def __init__(self, scriptblock):
+        self.scriptblock = scriptblock
+    
+    def __eq__(self, value):
+        return self.scriptblock == value.scriptblock
 
 if __name__ == "__main__":
 
